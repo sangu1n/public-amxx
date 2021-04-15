@@ -213,7 +213,7 @@ public client_disconnected(id)
 	get_user_name(id, name, charsmax(name))
 	if(bool_vip) return PLUGIN_HANDLED
 
-	if(is_user_gold_member(id))	colorx(0, id, "%s VIP ^3%s^1 s-a conectat pe server !",CHAT_PREFIX, name)
+	if(is_user_gold_member(id))	colorx(0, id, "%s VIP ^3%s^1 s-a deconectat pe server !",CHAT_PREFIX, name)
 	return PLUGIN_HANDLED
 }
 
