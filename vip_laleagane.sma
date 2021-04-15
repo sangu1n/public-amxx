@@ -8,7 +8,7 @@
 #define RED Red
 #define BLUE Blue
 #define GREY Grey
-#define ColorChat client_print_colorx
+#define ColorChat colorx
 
 #define VIP_FLAG ADMIN_LEVEL_H
 
@@ -196,7 +196,7 @@ public attribute_spawn_benefits(id)
 public ev_NewRound()
 {
 	iRound++
-	if(get_cvar_num(VAR[VIP_FREE_TURN]) == 0)	return PLUGIN_CONTINUE
+	if(VAR[VIP_FREE_TURN] == 0)	return PLUGIN_CONTINUE
 
 	if(is_vip_free(VAR[VIP_FREE_START], VAR[VIP_FREE_END]))	bool_vip = true
 	else
@@ -400,17 +400,17 @@ public ShowVipList(id) {
 			
 			if (len > 96) 
 			{
-				client_print_color(id, id, Message);
+				colorx(id, id, Message);
 				
 				len = format(Message, 255, " ");
 			}
 		}
 		
-		client_print_color (id, id, Message);
+		colorx(id, id, Message);
 	}
 	else 
 	{
-		client_print_color (id, id, "%s^1 Nu sunt^4 VIP^1-i online.", CHAT_PREFIX);
+		colorx(id, id, "%s^1 Nu sunt^4 VIP^1-i online.", CHAT_PREFIX);
 	} 
 	
 	return PLUGIN_CONTINUE;
