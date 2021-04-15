@@ -4,6 +4,7 @@
 #include <hamsandwich>
 #include <engine>
 #include <fun>
+#include <csx>
 
 #define RED Red
 #define BLUE Blue
@@ -34,7 +35,8 @@ enum _: CVARS
 	RUNDA_ACCES,
 	VIP_FREE_TURN,
 	VIP_FREE_START,
-	VIP_FREE_END
+	VIP_FREE_END,
+	VIP_BULLET_DAMAGE,
 }
 
 enum
@@ -50,7 +52,19 @@ enum {
 	Grey = 33,
 	Red,
 	Blue
-};
+}
+
+new const Float: g_flCoords[][] =
+{
+	{ 0.50, 0.40 },
+	{ 0.56, 0.44 },	
+	{ 0.60, 0.50 },
+	{ 0.56, 0.56 },
+	{ 0.50, 0.60 },
+	{ 0.44, 0.56 },
+	{ 0.40, 0.50 },
+	{ 0.44, 0.44 }
+}
 
 new VAR[CVARS]
 new iRound
@@ -58,9 +72,8 @@ new jumpnum[33] = 0
 new bool:dojump[33] = false
 new bool:bool_vip
 new MaxPlayers
-
-
-
+new g_iPosition[33]
+new g_iSize
 
 
 public plugin_init()
@@ -108,7 +121,16 @@ public plugin_init()
 	pcvar = create_cvar("vip_free_end", "23")
 	bind_pcvar_num(pcvar, VAR[VIP_FREE_END])
 
+	pcvar = create_cvar("vip_bullet_damage", "1")
+	bind_pcvar_num(pcvar, VAR[VIP_BULLET_DAMAGE])
+
+
+
+	
+
 	register_clcmd("say /vips", "ShowVipList")
+
+	g_iSize = sizeof( g_flCoords )
 
 
 	RegisterHam(Ham_Killed, "player", "ham_PlayerKilled", 1)
@@ -161,7 +183,15 @@ public plugin_init()
 }
 
 
+public client_damage(iAttacker, iVictim, iDamage)
+{
+	if(VAR[VIP_BULLET_DAMAGE] == 0 || is_user_bot(iAttacker) || is_user_hltv(iAttacker) || !is_user_alive(iAttacker)) return PLUGIN_HANDLED
+	if(++g_iPosition[iAttacker] == g_iSize)	g_iPosition[iAttacker] = 0
 
+	set_hudmessage(0, 40, 80, Float: g_flCoords[g_iPosition[iAttacker]][0], Float: g_flCoords[g_iPosition[iAttacker]][1], 0, 0.1, 2.5, 0.02, 0.02, -1)
+	show_hudmessage(iAttacker, "%i", iDamage)
+	return PLUGIN_CONTINUE
+}
 
 public SpawnCheck(id)
 {
