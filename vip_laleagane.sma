@@ -6,20 +6,23 @@
 #include <fun>
 #include <csx>
 
+
+/*---------- [ Aici modifici flagul la VIP ] ----------*/
+#define VIP_FLAG ADMIN_LEVEL_H
+
+/*---------- [ Aici daca vrei ca la event vip free sa apara pe hud : VIP FREE lasi asa ,daca nu pui asa : //#define USE_HUD ] ----------*/
+#define USE_HUD 
+
+/*---------- [ Aici schimbi prefixul din chat ] ----------*/
+#define CHAT_PREFIX "^4[^3LALEAGANE.RO^4]^1"
+
+/*---------- [ DE LA LINIA ASTA IN JOS NU MAI MODIFICI NIMIC ] ----------*/
+#define DEAD (1<<0)
+#define VIP (1<<2)
 #define RED Red
 #define BLUE Blue
 #define GREY Grey
 #define ColorChat colorx
-
-#define VIP_FLAG ADMIN_LEVEL_H
-
-#define USE_HUD 
-
-#define CHAT_PREFIX "^4[^3LALEAGANE.RO^4]"
-
-
-#define DEAD (1<<0)
-#define VIP (1<<2)
 
 enum _: CVARS
 {	
@@ -39,15 +42,6 @@ enum _: CVARS
 	VIP_BULLET_DAMAGE,
 }
 
-enum
-{
-	Primary = 1,
-	Secondary,
-	Knife,
-	Grenades,
-	C4
-}
-
 enum {
 	Grey = 33,
 	Red,
@@ -65,7 +59,6 @@ new const Float: g_flCoords[][] =
 	{ 0.40, 0.50 },
 	{ 0.44, 0.44 }
 }
-
 new VAR[CVARS]
 new iRound
 new jumpnum[33] = 0
@@ -77,8 +70,7 @@ new g_iSize
 
 
 public plugin_init()
-{
-	register_plugin("VIP LLG", "1.0", "SenorAMXX")
+{	register_plugin("VIP LLG", "1.0", "SenorAMXX")
 
 	new pcvar
 
