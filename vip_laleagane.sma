@@ -12,7 +12,7 @@
 
 #define VIP_FLAG ADMIN_LEVEL_H
 
-#define CSDM  // daca vrei ca pluginul sa fie ptr csdm lasi asa ; daca nu pune " // " in fata : //#define CSDM
+#define USE_HUD 
 
 #define CHAT_PREFIX "^4[^3LALEAGANE.RO^4]"
 
@@ -108,7 +108,6 @@ public plugin_init()
 	pcvar = create_cvar("vip_free_end", "23")
 	bind_pcvar_num(pcvar, VAR[VIP_FREE_END])
 
-
 	register_clcmd("say /vips", "ShowVipList")
 
 
@@ -166,22 +165,6 @@ public plugin_init()
 
 public SpawnCheck(id)
 {
-	#if defined CSDM
-		set_task(1.0, "attribute_spawn_benefits")
-	#endif
-
-	attribute_spawn_benefits(id)
-	
-	if(iRound >= VAR[RUNDA_ACCES])
-	{
-		meniu_vip(id)
-	}
-	
-}
-public logev_Restart()	iRound = 0
-
-public attribute_spawn_benefits(id)
-{
 	if(!is_user_alive(id) || is_user_bot(id) || is_user_hltv(id)) return PLUGIN_HANDLED
 
 	if(is_user_gold_member(id))
@@ -189,9 +172,15 @@ public attribute_spawn_benefits(id)
 		set_user_health(id, VAR[SPAWNHP])
 		cs_set_user_armor(id, VAR[SPAWNAP], CS_ARMOR_VESTHELM)
 	}
+	
+	if(iRound >= VAR[RUNDA_ACCES])
+	{
+		meniu_vip(id)
+	}
+
 	return PLUGIN_HANDLED
 }
-
+public logev_Restart()	iRound = 0
 
 public ev_NewRound()
 {
@@ -240,9 +229,12 @@ public client_PostThink(id)
 {
 	if(bool_vip)
     {
+
         set_user_flags(id, VIP_FLAG)
+        #if defined USE_HUD
         set_hudmessage(255, 0, 0, 0.27, 0.0, 0, 6.0, 12.0)
         show_hudmessage(id, "FREE VIP ON!")
+        #endif
     }
 
 	if(!is_user_alive(id))
@@ -380,6 +372,7 @@ public ShowVipList(id) {
 	if(bool_vip)
 	{
 		colorx(id, id, "%s Toti jucatorii au VIP pentru ca este event :D", CHAT_PREFIX)
+		return PLUGIN_HANDLED
 	}
 	
 	for (i = 1 ; i <= MaxPlayers; i ++)
