@@ -185,7 +185,12 @@ public plugin_init()
 
 public client_damage(iAttacker, iVictim, iDamage)
 {
-	if(VAR[VIP_BULLET_DAMAGE] == 0 || is_user_bot(iAttacker) || is_user_hltv(iAttacker) || !is_user_alive(iAttacker)) return PLUGIN_HANDLED
+	
+	if(VAR[VIP_BULLET_DAMAGE] == 0
+	|| is_user_bot(iAttacker)
+	|| is_user_hltv(iAttacker)
+	|| !is_user_alive(iAttacker)
+	|| !is_user_gold_member(iAttacker))	return PLUGIN_HANDLED
 	if(++g_iPosition[iAttacker] == g_iSize)	g_iPosition[iAttacker] = 0
 
 	set_hudmessage(0, 40, 80, Float: g_flCoords[g_iPosition[iAttacker]][0], Float: g_flCoords[g_iPosition[iAttacker]][1], 0, 0.1, 2.5, 0.02, 0.02, -1)
