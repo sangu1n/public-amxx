@@ -198,6 +198,25 @@ public client_damage(iAttacker, iVictim, iDamage)
 	return PLUGIN_CONTINUE
 }
 
+public client_putinserver(id)
+{
+	new name[33]
+	get_user_name(id, name, charsmax(name))
+	if(bool_vip) return PLUGIN_HANDLED
+
+	if(is_user_gold_member(id))	colorx(0, id, "%s VIP ^3%s^1 s-a conectat pe server !",CHAT_PREFIX, name)
+	return PLUGIN_HANDLED
+}
+public client_disconnected(id)
+{
+	new name[33]
+	get_user_name(id, name, charsmax(name))
+	if(bool_vip) return PLUGIN_HANDLED
+
+	if(is_user_gold_member(id))	colorx(0, id, "%s VIP ^3%s^1 s-a conectat pe server !",CHAT_PREFIX, name)
+	return PLUGIN_HANDLED
+}
+
 public SpawnCheck(id)
 {
 	if(!is_user_alive(id) || is_user_bot(id) || is_user_hltv(id)) return PLUGIN_HANDLED
@@ -406,7 +425,7 @@ public ShowVipList(id) {
 	new VipNames[33][32], Message[256], i, count, x, len;
 	if(bool_vip)
 	{
-		colorx(id, id, "%s Toti jucatorii au VIP pentru ca este event :D", CHAT_PREFIX)
+		colorx(id, id, "%s^1 Toti jucatorii au VIP pentru ca este event :D", CHAT_PREFIX)
 		return PLUGIN_HANDLED
 	}
 	
