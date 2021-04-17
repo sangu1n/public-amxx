@@ -36,13 +36,13 @@ public plugin_init()
 	register_plugin("Random Powers", "1.0", "SenorAMXX")
 
 	Val[viteza]		= register_cvar("hero_speed"	, 	"400.0	") // cata viteza sa aiba
-	Val[gravitatie]	= register_cvar("hero_gravity"	, 	"400	") // cata gravitatie sa aiba
+	Val[gravitatie]		= register_cvar("hero_gravity"	, 	"400	") // cata gravitatie sa aiba
 	Val[viata]		= register_cvar("hero_viata"	, 	"120	") // cata viata sa primeasca
 	Val[armura]		= register_cvar("hero_armura"	, 	"120	") // cata armura sa primeasca
-	Val[damage]		= register_cvar("hero_damage"	, 	"2		") // increment pentru damage ; adica : damage dat * valoare setata in cvar
+	Val[damage]		= register_cvar("hero_damage"	, 	"2	") // increment pentru damage ; adica : damage dat * valoare setata in cvar
 
-	RegisterHam			(Ham_Spawn, "player", "spawn_check", true)
-	RegisterHam			(Ham_TakeDamage, "player", "MoreDamage") 
+	RegisterHam		(Ham_Spawn, "player", "spawn_check", true)
+	RegisterHam		(Ham_TakeDamage, "player", "MoreDamage") 
 	register_logevent	("ev_roundstart", 2, "1=Round_Start")
 	register_event  	("CurWeapon", "Benefits", "be", "1=1")
 
@@ -57,8 +57,8 @@ public ev_roundstart()
 	get_players(players, pnum, "ach")
 	for(new i = 0; i < pnum; i++)
 	{
-		player 					= players[i]
-		bBenefits[player]		= true
+		player 			= players[i]
+		bBenefits[player]	= true
 	}
 }
 
@@ -80,7 +80,7 @@ public spawn_check()
 			client_print(0,print_chat,"[LALEAGANE] %s a fost ales HERO al echipei T !", name)
 
 			Benefits(iPlayer)
-       }
+      		 }
 		if (cs_get_user_team(index) == CS_TEAM_CT)
 		{
 			new name2[33]
