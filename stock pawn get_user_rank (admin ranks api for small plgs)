@@ -1,0 +1,12 @@
+stock bool: get_user_rank(id, iRank)
+{
+	switch(iRank)
+	{
+		case 1:	if(get_user_flags(id) & read_flags("abcdefghijklmnopqrstu")) return true; // owner
+		case 2:	if(get_user_flags(id) & read_flags("bcdefghijmnopqrst")) return true; // admin
+		case 3:	if(get_user_flags(id) & read_flags("bti")) return true; // vip
+		case 4:	if(get_user_flags(id) & read_flags("z")) return true; // user
+
+	}
+	return false;
+}
