@@ -128,8 +128,8 @@ public plugin_init()
     register_clcmd("amx_cvar", "cmd_cvar")
     register_clcmd("amx_say", "cmd_say")
     register_clcmd("amx_psay", "cmd_psay")
-    register_clcmd("amx_gag", "cmd_gag")
-    register_clcmd("amx_ungag", "cmd_ungag")
+    /*register_clcmd("amx_gag", "cmd_gag")
+    register_clcmd("amx_ungag", "cmd_ungag")*/
     register_clcmd("say", "cmd_hud_say")
     register_clcmd("say_team", "cmd_admin_chat")
 
