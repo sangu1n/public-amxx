@@ -90,7 +90,6 @@ new bool:g_bIsVipFree
 new bool:dojump[33] = false
 new bool:vip_blocked_map = false
 new bool:is_SSed[33]
-new bool:g_bIsGagged[33]
 
 /* --== [ Enums ] ==-- */
 enum _: PluginCvarInfos
@@ -1112,12 +1111,6 @@ public cmd_hud_say(id)
 
     get_user_name(id, szAdminName, charsmax(szAdminName))
     get_user_name(id, szPlayerName, charsmax(szPlayerName))
-
-    if(g_bIsGagged[id])
-    {
-        client_print_color(id, id, "%s Ai primit gag, inca nu poti scrie.", TAG)
-        return PLUGIN_HANDLED
-    }
 
     for(new i; i < sizeof g_ChatCommands; i++)
     {
