@@ -154,8 +154,8 @@ public plugin_init()
     getCvarInfo[GREEN_SS]       = register_cvar("green_ss", "1")
 
     getCvarInfo[VIP_FREE_STATE] = register_cvar("vip_free_state", "1")
-    getCvarInfo[VIP_FREE_HOURS] = register_cvar("vip_free_hours", "10-20")
-    getCvarInfo[VIP_FREE_FLAGS] = register_cvar("vip_free_flags", "abcd")
+    getCvarInfo[VIP_FREE_HOURS] = register_cvar("vip_free_hours", "10-20") // format : hh-hh
+    getCvarInfo[VIP_FREE_FLAGS] = register_cvar("vip_free_flags", "pqrstuvw")
 
 
     FadeMSG = get_user_msgid("ScreenFade")
