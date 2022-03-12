@@ -4,20 +4,29 @@
 #include <hamsandwich>
 #include <amxmisc>
 #include <fun>
+#include <csx>
 
 enum Benefits
 {
-	FLAGS[25] = 0,
+	NUME_GRAD[15] = 0,
+	FLAGS[25],
 	HEALTH,
 	ARMOR,
 	MONEY,
 	JUMPS,
-	DAMAGE
+	DAMAGE,
+	SHP,
+	SAP
 }
 
 new jumpnum[33] = 0
 new bool:dojump[33] = false
 new flags = -1
+
+new const Comenzi[] =
+{
+	"say /beneficii"
+}
 
 
 new const DataType[][Benefits] = 
@@ -26,11 +35,11 @@ new const DataType[][Benefits] =
 	 -> la dmg daca vrei sa fie normal lasi doar 1
 	 -> poti adauga cate grade vrei tu dar trb sa respecti ordinea 
 	*/
-	//flaguri, hp,  ap,   bani, jumps, dmg
-	{"abcde", 50, 50, 111, 2, 3}, // founder
-	{"abcd", 50, 50, 1111, 2, 1}, // diamond
-	{"ab", 50, 50, 1111, 2, 1}, // platinum
-	{"a", 50, 50, 1111, 2, 1} // gold
+	//flaguri, hp,  ap,   bani, jumps, dmg, shp, sap
+	{"Founder", "abcde", 50, 50, 111, 2, 3, 100, 100}, // founder
+	{"Diamonds", "abcd", 50, 50, 1111, 2, 1, 100, 100}, // diamond
+	{"Platinum", "ab", 50, 50, 1111, 2, 1, 100, 100}, // platinum
+	{"Gold", "a", 50, 50, 1111, 2, 1, 100, 100} // gold
 
 }
 
@@ -40,6 +49,12 @@ public plugin_init()
 
 	register_event("DeathMsg", "event_deathmsg", "a")
 	RegisterHam(Ham_TakeDamage, "player", "fw_takedamage")
+	RegisterHam(Ham_Spawn, "player", "event_spawn", true)
+
+	for(new i = 0; i < sizeof Comenzi; i++)
+	{
+		register_clcmd(Comenzi[i], "beneficii_hndl")
+	}
 }
 
 public event_deathmsg()
@@ -127,6 +142,43 @@ public fw_takedamage(iVictim, iInflictor, iAttacker, Float:iDamage, iDamageBits)
 		}
 	}
 }
+
+public beneficii_hndl(id)
+{
+	new menu = menu_create("Beneficii", "arata_meniu")
+	static buff[200]
+
+	for(new i = 0; i < sizeof DataType; i++)
+	{
+		formatex(buff, charsmax(buff), "%s (HP: %d | AP: %d | $%d/kill | DMG: x%d | JUMPS: %d)", DataType[i][NUME_GRAD], DataType[i][HEALTH], DataType[i][ARMOR], DataType[i][MONEY], DataType[i][DAMAGE], DataType[i][JUMPS])
+		menu_additem(menu, buff)
+	}
+	menu_setprop(menu, MPROP_EXIT, MEXIT_ALL)
+	menu_display(id, menu, 0)
+	return PLUGIN_CONTINUE
+}
+
+public arata_meniu(id, menu, item)
+{
+	if(item == MENU_EXIT)
+	{
+		menu_destroy(menu)
+		return PLUGIN_HANDLED
+	}
+
+	menu_destroy(menu)
+	return PLUGIN_HANDLED
+}
+
+public event_spawn(id)
+{
+	if(have_access(id, flags))
+	{
+		set_user_health(id, DataType[id][SHP])
+		set_user_armor(id, DataType[id][SAP])
+	}
+}
+
 stock have_access(id, &flags)
 {
 	new bool: bFound = false
